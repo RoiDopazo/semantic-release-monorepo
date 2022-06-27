@@ -32,7 +32,7 @@ const withFiles = async commits => {
   );
 };
 
-const onlyPackageCommits = async (analyzeLinkedDependencies, commits) => {
+const onlyPackageCommits = async (analyzeLinkedDependencies, commits, logger) => {
   let packagesIncluded = [];
 
   if (analyzeLinkedDependencies) {
@@ -108,7 +108,7 @@ const withOnlyPackageCommits = (plugin) => async (pluginConfig, config) => {
   return plugin(
     pluginConfig,
     await pipeP(
-      mapCommits((commits) => onlyPackageCommits(pluginConfig.analyzeLinkedDependencies, commits)),
+      mapCommits((commits) => onlyPackageCommits(pluginConfig.analyzeLinkedDependencies, commits, logger)),
       tapA(logFilteredCommitCount(logger))
     )(config)
   );
