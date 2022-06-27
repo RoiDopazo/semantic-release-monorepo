@@ -47,8 +47,12 @@ const onlyPackageCommits = async (analyzeLinkedDependencies, commits) => {
   }
   
   const packagePaths = [await getPackagePath(), ...packagesIncluded];
-  console.log('packagePath: ', packagePaths);
 
+  logger.log(
+    'Include commits from: %s',
+    packagePaths.join(', ')
+  );
+  
   debug('Filter commits by package path: "%s"', packagePaths);
   const commitsWithFiles = await withFiles(commits);
   // Convert package root path into segments - one for each folder
@@ -99,7 +103,6 @@ const logFilteredCommitCount = logger => async ({ commits }) => {
 };
 
 const withOnlyPackageCommits = (plugin) => async (pluginConfig, config) => {
-  console.log('pluginConfig: ', pluginConfig);
   const { logger } = config;
 
   return plugin(
